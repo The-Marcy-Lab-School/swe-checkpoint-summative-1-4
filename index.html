@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recipe Explorer</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+
+  <header>
+    <h1>Recipe Explorer</h1>
+    <form id="search-form">
+      <label for="search-input">Search</label>
+      <input type="text" id="search-input" placeholder="Search recipes..." required>
+      <button type="submit">Search</button>
+    </form>
+  </header>
+
+  <p id="error-message" class="hidden"></p>
+
+  <main>
+
+    <aside>
+      <h2>Filter by Meal Type</h2>
+      <div id="filter-buttons">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="Breakfast">Breakfast</button>
+        <button class="filter-btn" data-filter="Lunch">Lunch</button>
+        <button class="filter-btn" data-filter="Dinner">Dinner</button>
+        <button class="filter-btn" data-filter="Snack">Snack</button>
+      </div>
+    </aside>
+
+    <section id="recipes-section">
+      <h2>Recipes (<span id="recipe-count">0</span>)</h2>
+      <ul id="recipes-list">
+        <!-- Recipe cards rendered here by JavaScript -->
+      </ul>
+    </section>
+
+    <section id="recipe-detail" class="hidden">
+      <button id="close-detail">← Back to Recipes</button>
+      <img id="detail-image" src="" alt="">
+      <h2 id="detail-name"></h2>
+      <p id="detail-meta"></p>
+      <p id="detail-rating"></p>
+      <div id="detail-tags"></div>
+      <h3>Ingredients</h3>
+      <ul id="detail-ingredients"></ul>
+      <h3>Instructions</h3>
+      <ol id="detail-instructions"></ol>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>Data from <a href="https://dummyjson.com/recipes" target="_blank" rel="noopener">DummyJSON Recipes API</a></p>
+  </footer>
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>

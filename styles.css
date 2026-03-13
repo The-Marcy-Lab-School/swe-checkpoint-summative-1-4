@@ -1,0 +1,100 @@
+/* =============================================
+   CSS Reset & Base Styles (provided for you)
+   ============================================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* =============================================
+   CSS Custom Properties (provided for you)
+   ============================================= */
+
+:root {
+  --color-primary: #e07b39;
+  --color-primary-dark: #c4622a;
+  --color-background: #fdf6ee;
+  --color-surface: #ffffff;
+  --color-text: #2d2d2d;
+  --color-text-muted: #6b6b6b;
+  --color-border: #e0d6c8;
+  --color-error: #c0392b;
+  --color-active: #e07b39;
+
+  --font-family: 'Georgia', serif;
+  --font-size-base: 1rem;
+  --radius: 8px;
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* =============================================
+   Base Element Styles (provided for you)
+   ============================================= */
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--color-background);
+  color: var(--color-text);
+  font-size: var(--font-size-base);
+  line-height: 1.6;
+}
+
+h1, h2, h3 {
+  line-height: 1.3;
+}
+
+a {
+  color: var(--color-primary);
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  cursor: pointer;
+}
+
+#error-message {
+  color: var(--color-error);
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* =============================================
+   TODO: Add your layout styles below.
+
+   Requirements:
+   1. Header: Use Flexbox to place the <h1> and
+      the search <form> side by side, with the
+      title on the left and the form on the right.
+
+   2. Main Layout: Use Flexbox or CSS Grid so that
+      the <aside> and #recipes-section sit side by
+      side (sidebar + main content area).
+
+   3. Recipe Cards (#recipes-list): Use CSS Grid
+      to display recipe cards in a multi-column
+      grid. Each <li> should look like a card with
+      a border, border-radius, and padding.
+
+   4. Recipe Detail (#recipe-detail): Style the
+      detail panel so it is readable and visually
+      distinct from the list view.
+
+   5. Responsive Design:
+      - On screens narrower than 768px, the aside
+        and recipe list should stack vertically.
+      - On screens narrower than 480px, the recipe
+        card grid should be a single column.
+
+   Feel free to add additional styles beyond these
+   requirements to make your app look great!
+   ============================================= */
