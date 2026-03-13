@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+jspm_packages/
+web_modules/
+
+# Logs and databases
+*.log
+npm-debug.log*
+yarn-debug.log*
+.env
+
+# Build and coverage
+dist/
+build/
+coverage/
+.nyc_output
+
+# IDE/Editor and system files
+.DS_Store
+.vscode/
+.idea/
+
+src-solution/

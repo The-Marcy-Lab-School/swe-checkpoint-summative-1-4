@@ -161,7 +161,21 @@ Each question is worth **6 points** (3 technical + 3 writing quality) for a tota
 
 **File:** `src/RecipeCollection.js`
 
-Implement an OOP class that stores and manages a collection of recipe objects. This class demonstrates encapsulation using private fields and static properties.
+Implement an OOP class that stores and manages a collection of recipe objects. 
+
+Recipe objects have the following shape: 
+
+```js
+const pizza = { 
+    id: 1, 
+    name: 'Margherita Pizza', 
+    difficulty: 'Easy', 
+    rating: 4.6, 
+    mealType: ['Dinner', 'Lunch'] 
+};
+```
+
+This class demonstrates encapsulation using private fields and static properties.
 
 ### Class Specification
 
