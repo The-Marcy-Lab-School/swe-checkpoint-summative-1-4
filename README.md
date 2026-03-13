@@ -9,29 +9,24 @@
 - [Section 2: RecipeCollection Class (OOP)](#section-2-recipecollection-class-oop)
   - [Class Specification](#class-specification)
   - [Example Usage](#example-usage)
+  - [Requirements](#requirements)
 - [Section 3: Fetch Helpers](#section-3-fetch-helpers)
   - [API Reference](#api-reference)
   - [Functions](#functions)
-    - [`fetchData(url)`](#fetchdataurl)
     - [`getAllRecipes()`](#getallrecipes)
-    - [`getRecipeById(id)`](#getrecipebyidid)
-    - [`searchRecipes(query)` ← Must use async/await](#searchrecipesquery--must-use-asyncawait)
+    - [`searchRecipes(query)`](#searchrecipesquery)
+  - [Requirements](#requirements-1)
 - [Section 4: DOM Helpers](#section-4-dom-helpers)
-  - [Key DOM Elements](#key-dom-elements)
-  - [Functions](#functions-1)
-    - [`renderRecipes(recipes)`](#renderrecipesrecipes)
-    - [`renderRecipeDetail(recipe)`](#renderrecipedetailrecipe)
-    - [`hideRecipeDetail()`](#hiderecipedetail)
-    - [`renderError(message)`](#rendererrormessage)
+  - [`renderRecipes(recipes)`](#renderrecipesrecipes)
+  - [`renderError(message)`](#rendererrormessage)
+  - [Requirements](#requirements-2)
 - [Section 5: main.js — Event Handling](#section-5-mainjs--event-handling)
-  - [Part 1: Create a RecipeCollection Instance](#part-1-create-a-recipecollection-instance)
-  - [Part 2: Initialize on Page Load](#part-2-initialize-on-page-load)
-  - [Part 3: Search Form](#part-3-search-form)
-  - [Part 4: Recipe Card Click (Event Delegation)](#part-4-recipe-card-click-event-delegation)
-  - [Part 5: Close Detail Panel](#part-5-close-detail-panel)
-  - [Part 6: Meal Type Filter (Event Delegation)](#part-6-meal-type-filter-event-delegation)
+  - [Requirements](#requirements-3)
 - [Section 6: CSS Layout](#section-6-css-layout)
-  - [Requirements](#requirements)
+  - [Requirements](#requirements-4)
+- [Concept Coverage](#concept-coverage)
+  - [Covered](#covered)
+  - [Not Covered](#not-covered)
 
 ---
 
@@ -51,7 +46,6 @@ You will build a **Recipe Explorer** web app that fetches recipe data from the [
 **The completed app should:**
 - Display a grid of recipe cards fetched from the API
 - Allow users to search for recipes by name
-- Show full recipe details when a card is clicked
 - Filter recipes by meal type (Breakfast, Lunch, Dinner, Snack) using locally stored data
 
 ---
@@ -100,7 +94,7 @@ You will build a **Recipe Explorer** web app that fetches recipe data from the [
 - ❌ Searching for direct solutions online
 
 **If You're Stuck:**
-- Read the JSDoc comments in each file carefully — they describe exactly what each function should do
+- Read the comments in each file carefully — they describe the expected behavior
 - Use `console.log()` to debug your code
 - Check the browser's DevTools console for errors
 - Take a break and come back with fresh eyes
@@ -161,36 +155,31 @@ Each question is worth **6 points** (3 technical + 3 writing quality) for a tota
 
 **File:** `src/RecipeCollection.js`
 
-Implement an OOP class that stores and manages a collection of recipe objects. 
+Implement an OOP class that stores and manages a collection of recipe objects.
 
-Recipe objects have the following shape: 
+Recipe objects have the following shape:
 
 ```js
-const pizza = { 
-    id: 1, 
-    name: 'Margherita Pizza', 
-    difficulty: 'Easy', 
-    rating: 4.6, 
-    mealType: ['Dinner', 'Lunch'] 
+const pizza = {
+  id: 1,
+  name: 'Margherita Pizza',
+  difficulty: 'Easy',
+  rating: 4.6,
+  mealType: ['Dinner', 'Lunch']
 };
 ```
 
-This class demonstrates encapsulation using private fields and static properties.
-
 ### Class Specification
 
-| Member                         | Type                 | Description                                                               |
-| ------------------------------ | -------------------- | ------------------------------------------------------------------------- |
-| `#recipes`                     | Private field        | Array of recipe objects in this collection *(pre-provided)*               |
-| `#totalCollections`            | Private static field | Count of all `RecipeCollection` instances created *(pre-provided)*        |
-| `constructor(name)`            | Constructor          | Sets `this.name`; increments static counter                               |
-| `static getTotalCollections()` | Static method        | Returns the value of `#totalCollections`                                  |
-| `addRecipe(recipe)`            | Instance method      | Adds a recipe object to `#recipes`                                        |
-| `getAll()`                     | Instance method      | Returns a shallow copy of `#recipes`                                      |
-| `getCount()`                   | Instance method      | Returns the number of recipes                                             |
-| `getNames()`                   | Instance method      | Uses `.map()` — returns an array of recipe name strings                   |
-| `getAverageRating()`           | Instance method      | Uses `.reduce()` — returns average rating (1 decimal place); `0` if empty |
-| `filterByMealType(mealType)`   | Instance method      | Uses `.filter()` + `.includes()` — returns recipes matching the meal type |
+| Member                       | Type            | Description                                                         |
+| ---------------------------- | --------------- | ------------------------------------------------------------------- |
+| `#recipes`                   | Private field   | Array of recipe objects in this collection *(pre-provided)*         |
+| `constructor(name)`          | Constructor     | Gives the collection a name accessible as `this.name`               |
+| `addRecipe(recipe)`          | Instance method | Adds a recipe object to the collection                              |
+| `getAll()`                   | Instance method | Returns the recipes without exposing the private field directly     |
+| `getNames()`                 | Instance method | Returns an array of just the recipe name strings                    |
+| `getAverageRating()`         | Instance method | Returns the average rating rounded to 1 decimal place; `0` if empty |
+| `filterByMealType(mealType)` | Instance method | Returns only recipes whose `mealType` array includes the given type |
 
 ### Example Usage
 
@@ -205,20 +194,25 @@ myCollection.addRecipe(pizza);
 myCollection.addRecipe(pasta);
 myCollection.addRecipe(oatmeal);
 
-console.log(myCollection.getCount());                       // 3
 console.log(myCollection.getNames());                       // ['Margherita Pizza', 'Pasta Carbonara', 'Banana Oatmeal']
 console.log(myCollection.getAverageRating());               // 4.5
 console.log(myCollection.filterByMealType('Dinner'));       // [pizza, pasta]
-
-const anotherCollection = new RecipeCollection('Quick Meals');
-console.log(RecipeCollection.getTotalCollections());        // 2
 ```
 
-You can manually test by uncommenting the test code at the bottom of `RecipeCollection.js` and running:
+To verify your implementation, uncomment `test()` at the bottom of `RecipeCollection.js` and run:
 
 ```bash
 node src/RecipeCollection.js
 ```
+
+### Requirements
+
+- [ ] `constructor` — `this.name` is set to the given name
+- [ ] `addRecipe()` — the recipe is stored in the collection
+- [ ] `getAll()` — returns a copy of the recipes, not a direct reference to the private array
+- [ ] `getNames()` — returns an array of recipe name strings
+- [ ] `getAverageRating()` — returns the average rating rounded to 1 decimal place; returns `0` for an empty collection
+- [ ] `filterByMealType()` — returns only recipes whose `mealType` array includes the given type
 
 ---
 
@@ -226,9 +220,9 @@ node src/RecipeCollection.js
 
 **File:** `src/fetch-helpers.js`
 
-Implement four async functions that fetch data from the DummyJSON Recipes API. These functions should have **no DOM interaction**.
+Implement two async functions that fetch data from the DummyJSON Recipes API. These functions should have **no DOM interaction**.
 
-All functions should return a `{ data, error }` object:
+Each function returns `{ data, error }`:
 - On success: `{ data: <result>, error: null }`
 - On failure: `{ data: null, error: <error message string> }`
 
@@ -242,39 +236,26 @@ All functions should return a `{ data, error }` object:
 
 ### Functions
 
-#### `fetchData(url)`
-
-The base helper used by all other functions.
-
-```
-- async/await syntax
-- If response.ok is false, throw a new Error
-- On success: return { data: jsonData, error: null }
-- On failure (catch block): return { data: null, error: error.message }
-```
-
 #### `getAllRecipes()`
 
-```
-- Fetches: https://dummyjson.com/recipes?limit=30
-- The API returns: { recipes: [...], total, skip, limit }
-- Return: { data: recipesArray, error }
-```
+Fetches all recipes from the API. On success, `data` is an array of recipe objects. On failure, `data` is `null` and `error` is a message string.
 
-#### `getRecipeById(id)`
+**What you'll need:** `async`/`await`, `fetch`, `response.ok`, `response.json()`, `try`/`catch`.
 
-```
-- Fetches: https://dummyjson.com/recipes/{id}
-- Return: { data: recipeObject, error }
-```
+#### `searchRecipes(query)`
 
-#### `searchRecipes(query)` ← Must use async/await
+Fetches recipes matching the search query. On success, `data` is an array of matching recipe objects. On failure, `data` is `null` and `error` is a message string.
 
-```
-- Fetches: https://dummyjson.com/recipes/search?q={query}
-- Must use async/await (not .then/.catch)
-- Return: { data: recipesArray, error }
-```
+**What you'll need:** `async`/`await`, `fetch`, `response.ok`, `response.json()`, `try`/`catch`, template literals.
+
+### Requirements
+
+- [ ] `getAllRecipes()` uses `async`/`await` and fetches from the correct URL
+- [ ] `getAllRecipes()` checks `response.ok` and throws on a failed response
+- [ ] `getAllRecipes()` returns `{ data: recipesArray, error: null }` on success and `{ data: null, error: message }` on failure
+- [ ] `searchRecipes()` uses `async`/`await` and fetches from the correct URL with the query string
+- [ ] `searchRecipes()` checks `response.ok` and throws on a failed response
+- [ ] `searchRecipes()` returns `{ data: recipesArray, error: null }` on success and `{ data: null, error: message }` on failure
 
 ---
 
@@ -282,60 +263,42 @@ The base helper used by all other functions.
 
 **File:** `src/dom-helpers.js`
 
-Implement four functions that read from and write to the DOM. These functions should have **no fetch calls**.
+Implement two functions that read from and write to the DOM. These functions should have **no fetch calls**.
 
-### Key DOM Elements
+You can inspect `index.html` to find the relevant element IDs.
 
-All elements are already in `index.html`:
+### `renderRecipes(recipes)`
 
-| ID                     | Element     | Purpose                                    |
-| ---------------------- | ----------- | ------------------------------------------ |
-| `#recipes-list`        | `<ul>`      | Recipe cards rendered here                 |
-| `#recipe-count`        | `<span>`    | Number of recipes shown                    |
-| `#recipes-section`     | `<section>` | Contains list heading + list               |
-| `#recipe-detail`       | `<section>` | Full recipe detail panel                   |
-| `#detail-image`        | `<img>`     | Recipe photo                               |
-| `#detail-name`         | `<h2>`      | Recipe name                                |
-| `#detail-meta`         | `<p>`       | Prep time, cook time, servings, difficulty |
-| `#detail-rating`       | `<p>`       | Rating and review count                    |
-| `#detail-tags`         | `<div>`     | Tag badges                                 |
-| `#detail-ingredients`  | `<ul>`      | Ingredient list                            |
-| `#detail-instructions` | `<ol>`      | Instruction steps                          |
-| `#error-message`       | `<p>`       | Error text                                 |
+After this function runs, the page should show a card for each recipe with its image, name, cuisine and difficulty, and rating. The recipe count display should also update. Open the browser and verify the grid looks correct.
 
-### Functions
+```html
+<ul id="recipes-list">
+  <li>
+    <img src="https://..." alt="Margherita Pizza">
+    <h3>Margherita Pizza</h3>
+    <p>Italian · Easy</p>
+    <p>★ 4.6</p>
+  </li>
+  <!-- one <li> per recipe -->
+</ul>
+```
 
-#### `renderRecipes(recipes)`
+**What you'll need:** `document.querySelector`, `element.innerHTML`, `element.textContent`, `document.createElement`, `element.append`, array iteration.
 
-Clears `#recipes-list` and renders a card `<li>` for each recipe:
-- `data-recipe-id` attribute set to `recipe.id`
-- `<img>` with `src` and `alt`
-- `<h3>` with recipe name
-- `<p>` with cuisine and difficulty, e.g. `"Italian · Easy"`
-- `<p>` with rating, e.g. `"★ 4.6"`
-- Updates `#recipe-count` with `recipes.length`
+### `renderError(message)`
 
-#### `renderRecipeDetail(recipe)`
+After this function runs with a non-empty message, an error should be visible on the page. After it runs with an empty string, the error should disappear. Verify by temporarily passing a string to it in the browser console (open the browser console and type `renderError('oops')` and hit enter. Then try again with `renderError('')`).
 
-Shows the detail panel for one recipe:
-- Removes `.hidden` from `#recipe-detail`
-- Adds `.hidden` to `#recipes-section`
-- Populates all `#detail-*` elements
+The `#error-message` element starts with the `.hidden` class in `index.html` — toggle its visibility by adding and removing that class.
 
-Format for `#detail-meta`:
-> `Prep: 20min | Cook: 30min | Servings: 4 | Easy`
+**What you'll need:** `document.querySelector`, `element.textContent`, `element.classList.add`, `element.classList.remove`.
 
-Format for `#detail-rating`:
-> `★ 4.6 (98 reviews)`
+### Requirements
 
-#### `hideRecipeDetail()`
-
-Adds `.hidden` to `#recipe-detail` and removes `.hidden` from `#recipes-section`.
-
-#### `renderError(message)`
-
-- Truthy message: set text content, remove `.hidden`
-- Falsy message: clear text, add `.hidden`
+- [ ] `renderRecipes()` clears `#recipes-list` and updates the recipe count before rendering
+- [ ] `renderRecipes()` renders an `<img>`, `<h3>` (name), `<p>` (cuisine · difficulty), and `<p>` (★ rating) for each recipe
+- [ ] `renderError()` shows the message and removes `.hidden` when the message is truthy
+- [ ] `renderError()` clears the message and adds `.hidden` when the message is falsy
 
 ---
 
@@ -343,48 +306,27 @@ Adds `.hidden` to `#recipe-detail` and removes `.hidden` from `#recipes-section`
 
 **File:** `src/main.js`
 
-Wire everything together using imports from the other three files.
+Wire everything together using imports from the other three files. The starter code provides three named function stubs and the active-state management inside `handleFilterClick`.
 
-### Part 1: Create a RecipeCollection Instance
+**Part 1:** The app needs a place to store recipes in memory after they are fetched so filtering works without re-fetching. Create a `RecipeCollection` instance before anything else runs.
 
-```js
-const collection = new RecipeCollection('All Recipes');
-```
+**Part 2 (`main`):** When the app loads, the recipe grid should populate automatically. If the fetch fails, an error message should appear instead. Verify: open the browser — cards should appear without any user interaction.
 
-### Part 2: Initialize on Page Load
+**Part 3 (`handleSearchSubmit`):** When the search form is submitted, the grid should update to show only recipes matching the query. Verify: type "pasta" and hit Search — the results should change.
 
-Use an async IIFE (`(async () => { ... })()`) to:
-1. Call `getAllRecipes()`
-2. On error: call `renderError(error)`
-3. On success: add each recipe to the collection, then call `renderRecipes(collection.getAll())`
+**Part 4 (`handleFilterClick`):** When a filter button is clicked, only recipes of that meal type should appear. "All" should restore the full list. The active-state highlighting is already handled — focus on updating the recipe grid. Verify: click each filter button and confirm the grid updates.
 
-### Part 3: Search Form
+**Part 5:** Start the app and attach all event listeners so every feature works end-to-end.
 
-On `#search-form` submit:
-1. `event.preventDefault()`
-2. Get trimmed value from `#search-input`
-3. Call `searchRecipes(query)`
-4. On error: `renderError(error)`. On success: `renderRecipes(data)`
+**What you'll need:** `document.querySelector`, `element.addEventListener`, `event.preventDefault`, `event.target.closest`, `input.value`, `dataset.filter`.
 
-### Part 4: Recipe Card Click (Event Delegation)
+### Requirements
 
-On `#recipes-list` click:
-1. `event.target.closest('li')` — return early if null
-2. Get `data-recipe-id` from the card element
-3. Call `getRecipeById(id)`
-4. On success: `renderRecipeDetail(data)`
-
-### Part 5: Close Detail Panel
-
-On `#close-detail` click: call `hideRecipeDetail()`
-
-### Part 6: Meal Type Filter (Event Delegation)
-
-On `#filter-buttons` click:
-1. `event.target.closest('.filter-btn')` — return early if null
-2. Remove `active` class from all `.filter-btn` elements, add it to the clicked button
-3. If `data-filter === 'all'`: `renderRecipes(collection.getAll())`
-4. Otherwise: `renderRecipes(collection.filterByMealType(filter))`
+- [ ] A `RecipeCollection` instance is created before any functions run
+- [ ] On load, recipes are fetched, added to the collection, and rendered; an error message appears if the fetch fails
+- [ ] On search submit, the grid updates with matching results; an error message appears if the fetch fails
+- [ ] On filter click, the grid shows only recipes of the selected meal type; "All" restores the full list
+- [ ] `main()` is called and both event listeners (`submit` on `#search-form`, `click` on `#filter-buttons`) are attached
 
 ---
 
@@ -394,16 +336,65 @@ On `#filter-buttons` click:
 
 `styles.css` provides a CSS reset, custom properties, and base element styles. You write all layout styles below the `TODO` comment.
 
+Use a **mobile-first** approach: write default styles for mobile, then use `min-width` media queries to adapt for larger screens. Feel free to add additional styles to make the app visually polished!
+
 ### Requirements
 
-1. **Header Flexbox** — Use Flexbox on the `<header>` so the `<h1>` and search `<form>` are side by side (title on the left, form on the right).
+- [ ] `<header>` uses Flexbox to place the title and search form side by side at all screen sizes
+- [ ] `<aside>` and `#recipes-section` stack vertically by default (mobile)
+- [ ] `#recipes-list` is a 1-column grid by default; each `<li>` is styled as a card (border, border-radius, padding)
+- [ ] At `min-width: 768px`, `<main>` switches to a side-by-side layout and `#recipes-list` becomes a multi-column grid
 
-2. **Main Layout** — Use Flexbox or CSS Grid on `<main>` so the `<aside>` (filter sidebar) and `#recipes-section` sit side by side.
+---
 
-3. **Recipe Card Grid** — Use `display: grid` with `grid-template-columns` on `#recipes-list` for a multi-column card layout.
+## Concept Coverage
 
-4. **Responsive — 768px** — At `max-width: 768px`, the aside and content area should stack vertically.
+### Covered
 
-5. **Responsive — 480px** — At `max-width: 480px`, the recipe card grid should be a single column.
+**Module 1 — JS Fundamentals**
+- `let` / `const` / `var` and block scope
+- Array higher-order methods: `.filter()`, `.map()`, `.reduce()`
 
-Feel free to add additional styles to make the app visually polished!
+**Module 2 — OOP**
+- Classes and constructors
+- Private instance fields (`#`)
+- Encapsulation
+
+**Module 3 — HTML & CSS**
+- Flexbox layout
+- CSS Grid layout
+- Responsive design with `@media` queries
+
+**Module 4 — Async & APIs**
+- `async` / `await`
+- Async execution order and the event loop
+- `fetch` with `response.ok` error checking
+- `try` / `catch` for async error handling
+- ES Modules (`import` / `export`)
+- DOM manipulation (creating and appending elements)
+- Event listeners and event delegation (`closest()`)
+- `data-*` attributes
+
+---
+
+### Not Covered
+
+**Module 1**
+- Closures
+- `var` hoisting in depth
+
+**Module 2**
+- Inheritance (`extends` / `super`)
+- Static class members
+- Prototypal inheritance
+
+**Module 3**
+- Semantic HTML
+- CSS custom properties (provided, not written)
+- CSS animations and transitions
+
+**Module 4**
+- `.then()` / `.catch()` Promise chaining
+- `Promise.all()`
+- Rendering a detail/single-item view
+- `localStorage` / `sessionStorage`

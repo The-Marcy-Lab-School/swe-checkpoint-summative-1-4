@@ -7,81 +7,51 @@
  */
 
 import { RecipeCollection } from './RecipeCollection.js';
-import { getAllRecipes, getRecipeById, searchRecipes } from './fetch-helpers.js';
-import { renderRecipes, renderRecipeDetail, hideRecipeDetail, renderError } from './dom-helpers.js';
+import { getAllRecipes, searchRecipes } from './fetch-helpers.js';
+import { renderRecipes, renderError } from './dom-helpers.js';
 
 // =============================================
 // Part 1: Create a RecipeCollection Instance
 // =============================================
-// TODO 1: Create a new RecipeCollection with the name "All Recipes".
-// Store it in a variable so you can use it throughout the file.
-
+// TODO 1: The app needs a place to store recipes locally so filters
+// work without re-fetching. Create a RecipeCollection to hold them.
 
 
 // =============================================
 // Part 2: Initialize — Load All Recipes on Page Load
 // =============================================
-// TODO 2: Call getAllRecipes() to fetch the initial list of recipes.
-//   - If there is an error, call renderError() with the error message.
-//   - If successful:
-//       1. Call renderError('') to clear any previous error.
-//       2. Add each recipe to your RecipeCollection using addRecipe().
-//       3. Call renderRecipes() with the full list of recipes.
-//
-// Hint: You can use an immediately invoked async arrow function:
-//   (async () => { ... })();
-
-
+const main = async () => {
+  // TODO 2: When the app loads, the recipe grid should automatically populate.
+  // If the fetch fails, an error message should appear instead.
+  // Verify: open the browser — recipe cards should appear without any interaction.
+};
 
 // =============================================
-// Part 3: Search Form
+// Part 3: Search Form Handler
 // =============================================
-// TODO 3: Add a 'submit' event listener to the #search-form element.
-//   - Prevent the default form submission behavior.
-//   - Get the trimmed value from #search-input.
-//   - Call searchRecipes(query) with the search query.
-//   - If there is an error, call renderError() with the error message.
-//   - If successful:
-//       1. Call renderError('') to clear any previous error.
-//       2. Call renderRecipes() with the search results.
-
-
+const handleSearchSubmit = async (event) => {
+  // TODO 3: When the form is submitted, the grid should update to show
+  // only recipes matching the search query.
+  // Verify: type "pasta" and hit Search — the results should change.
+};
 
 // =============================================
-// Part 4: Recipe Card Click — Event Delegation
+// Part 4: Meal Type Filter Handler
 // =============================================
-// TODO 4: Add a 'click' event listener to the #recipes-list element.
-//   - Use event.target.closest('li') to find the clicked recipe card.
-//   - If no <li> was clicked, return early.
-//   - Get the recipe ID from the element's data-recipe-id attribute.
-//   - Call getRecipeById(id) to fetch the full recipe details.
-//   - If there is an error, call renderError() with the error message.
-//   - If successful, call renderRecipeDetail() with the recipe data.
+const handleFilterClick = (event) => {
+  // Provided: get the clicked button and update the active state
+  const btn = event.target.closest('.filter-btn');
+  if (!btn) return;
+  document.querySelectorAll('.filter-btn').forEach((b) => b.classList.remove('active'));
+  btn.classList.add('active');
 
-
-
-// =============================================
-// Part 5: Close Detail Panel
-// =============================================
-// TODO 5: Add a 'click' event listener to the #close-detail button.
-//   - Call hideRecipeDetail() to return to the list view.
-
-
+  // TODO 4: When a filter button is clicked, only recipes of that meal type
+  // should appear. "All" should restore the full list.
+  // Verify: click each filter — the grid should update and the button should stay highlighted.
+};
 
 // =============================================
-// Part 6: Meal Type Filter Buttons — Event Delegation
+// Part 5: Invoke & Wire Up
 // =============================================
-// TODO 6: Add a 'click' event listener to the #filter-buttons element.
-//   - Use event.target.closest('.filter-btn') to find the clicked button.
-//   - If no filter button was clicked, return early.
-//   - Get the data-filter value from the clicked button.
-//
-// Provided: active state management
-//   document.querySelectorAll('.filter-btn').forEach((b) => b.classList.remove('active'));
-//   btn.classList.add('active');
-//
-//   - If filter is 'all':
-//       - Call renderRecipes() with all recipes from the collection (use getAll()).
-//   - Otherwise:
-//       - Use the collection's filterByMealType() method to get filtered recipes.
-//       - Call renderRecipes() with the filtered recipes.
+// TODO 5: Start the app and connect the event handlers so all three
+// features work: initial load, search, and filtering.

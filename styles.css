@@ -71,29 +71,27 @@ button {
 /* =============================================
    TODO: Add your layout styles below.
 
+   Use a mobile-first approach: write default styles
+   for mobile, then use min-width media queries to
+   adjust the layout for larger screens.
+
    Requirements:
-   1. Header: Use Flexbox to place the <h1> and
-      the search <form> side by side, with the
-      title on the left and the form on the right.
+   1. Header: Use Flexbox to place the <h1> and the
+      search <form> side by side at all screen sizes.
 
-   2. Main Layout: Use Flexbox or CSS Grid so that
-      the <aside> and #recipes-section sit side by
-      side (sidebar + main content area).
+   2. Mobile default — Main layout: <aside> and
+      #recipes-section should stack vertically by
+      default (no media query needed).
 
-   3. Recipe Cards (#recipes-list): Use CSS Grid
-      to display recipe cards in a multi-column
-      grid. Each <li> should look like a card with
-      a border, border-radius, and padding.
+   3. Mobile default — Recipe grid: #recipes-list
+      should be a 1-column grid by default. Each <li>
+      should look like a card with a border,
+      border-radius, and padding.
 
-   4. Recipe Detail (#recipe-detail): Style the
-      detail panel so it is readable and visually
-      distinct from the list view.
-
-   5. Responsive Design:
-      - On screens narrower than 768px, the aside
-        and recipe list should stack vertically.
-      - On screens narrower than 480px, the recipe
-        card grid should be a single column.
+   4. Tablet/Desktop (min-width: 768px): Switch
+      <main> to a side-by-side layout (aside next to
+      content). Switch #recipes-list to a multi-column
+      grid (2 or more columns).
 
    Feel free to add additional styles beyond these
    requirements to make your app look great!

@@ -1,14 +1,8 @@
 class RecipeCollection {
   #recipes = [];
-  static #totalCollections = 0;
 
   constructor(name) {
     this.name = name;
-    RecipeCollection.#totalCollections++;
-  }
-
-  static getTotalCollections() {
-    return RecipeCollection.#totalCollections;
   }
 
   addRecipe(recipe) {
@@ -17,14 +11,6 @@ class RecipeCollection {
 
   getAll() {
     return [...this.#recipes];
-  }
-
-  getCount() {
-    return this.#recipes.length;
-  }
-
-  filterByDifficulty(difficulty) {
-    return this.#recipes.filter((recipe) => recipe.difficulty === difficulty);
   }
 
   getNames() {
